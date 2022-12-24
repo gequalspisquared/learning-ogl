@@ -16,8 +16,8 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 GLFWwindow *initializeGLFW(unsigned int windowWidth, unsigned int windowHeight);
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1600;
+const unsigned int SCR_HEIGHT = 900;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 bool firstMouse = true;
@@ -127,7 +127,7 @@ int main()
         lightingShader.use();
         lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
         float g = (sin(currentFrame) + 1.0f)/4.0f + 0.5f;
-        lightingShader.setVec3("lightColor", 0.0f, 1.0f, 0.0f);
+        lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
@@ -135,11 +135,27 @@ int main()
         lightingShader.setMat4("view", camera.getMatrixView());
 
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(camera.zoom), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(camera.zoom), 1600.0f / 900.0f, 0.1f, 100.0f);
         lightingShader.setMat4("projection", projection);
 
-        lightPos = glm::vec3(sin(currentFrame), cos(currentFrame), 0.0f);
-        lightingShader.setVec3("lightPos", lightPos);
+        // lightPos = glm::vec3(2.0*sin(currentFrame), 2.0*cos(currentFrame), 0.0f);
+        lightingShader.setVec3("viewPos", camera.position);
+
+        lightingShader.setVec3("light.position", lightPos);
+        glm::vec3 lightColor;
+        lightColor.x = static_cast<float>(sin(glfwGetTime() * 2.0));
+        lightColor.y = static_cast<float>(sin(glfwGetTime() * 0.7));
+        lightColor.z = static_cast<float>(sin(glfwGetTime() * 1.3));
+        glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // decrease the influence
+        glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // low influence
+        lightingShader.setVec3("light.ambient", ambientColor);
+        lightingShader.setVec3("light.diffuse", diffuseColor);
+        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+        lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+        lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+        lightingShader.setVec3("material.ambient", 0.5f, 0.5f, 0.5f);
+        lightingShader.setFloat("material.shininess", 32.0f);
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
