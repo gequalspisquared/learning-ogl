@@ -9,6 +9,7 @@ Mesh::Mesh(const std::vector<Vertex> &vertices,
     , indices(indices)
     , textures(textures)
 {
+    setupMesh();
 }
 
 void Mesh::draw(Shader &shader) const
@@ -27,7 +28,6 @@ void Mesh::draw(Shader &shader) const
             number = std::to_string(specularNr++);
         
         // shader.setInt(("material." + name + number).c_str(), i);
-        std::cout << name + number << "\n";
         shader.setInt(name + number, i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
