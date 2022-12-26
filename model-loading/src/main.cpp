@@ -119,7 +119,8 @@ int main()
     Shader shader("../shaders/model_loading.vs", "../shaders/model_loading.fs");
     shader.use();
 
-    Model backpack("../models/backpack/backpack.obj");
+    // Model backpack("../models/backpack/backpack.obj");
+    Model curModel("../models/cube/untitled.obj");
 
     while (!glfwWindowShouldClose(window))
     {
@@ -146,7 +147,7 @@ int main()
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         shader.setMat4("model", model);
-        backpack.draw(shader);
+        curModel.draw(shader);
 
         // lightingShader.use();
         // lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
