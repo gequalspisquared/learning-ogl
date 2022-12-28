@@ -59,7 +59,8 @@ int main()
     Shader shader("../shaders/model_loading.vs", "../shaders/model_loading.fs");
     Shader skyboxShader("../shaders/skybox.vs", "../shaders/skybox.fs");
 
-    Model curModel("../res/models/backpack/backpack.obj");
+    // Model curModel("../res/models/backpack/backpack.obj");
+    Model curModel("../res/mars/mars.obj");
     // Model curModel("../res/models/cube/untitled.obj");
 
     while (!glfwWindowShouldClose(window))
@@ -88,7 +89,6 @@ int main()
         shader.setMat4("model", model);
         curModel.draw(shader);
 
-        // glDepthFunc(GL_LEQUAL);
         skyboxShader.use();
         
         // view/projection transformations
