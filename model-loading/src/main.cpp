@@ -10,7 +10,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Model.h"
-#include "Cubemap.h"
+#include "Skybox.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow *window, double xpos, double ypos);
@@ -27,7 +27,6 @@ float lastX = SCR_WIDTH/2.0f, lastY = SCR_HEIGHT/2.0f;
 
 float dt = 0.0f;
 float lastFrame = 0.0f;
-// float yaw = -90.0f, pitch = 0.0f;
 
 // glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
@@ -41,84 +40,8 @@ int main()
     }
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    // Shader lightingShader("../shaders/lightingShader.vs", "../shaders/lightingShader.fs");
-    // Shader lightCubeShader("../shaders/lightCubeShader.vs", "../shaders/lightCubeShader.fs");
-
-
-    // float vertices[] = {
-    //     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    //      0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    //      0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    //      0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    //     -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    //     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-
-    //     -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    //      0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    //      0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    //      0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    //     -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    //     -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-
-    //     -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    //     -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    //     -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    //     -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    //     -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    //     -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-    //      0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-    //      0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-    //      0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-    //      0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-    //      0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-    //      0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-
-    //     -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-    //      0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-    //      0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    //      0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    //     -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    //     -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-    //     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    //      0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    //      0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    //      0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    //     -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    //     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-    // };
-
-    // unsigned int VBO, VAO;
-    // glGenVertexArrays(1, &VAO);
-    // glGenBuffers(1, &VBO);
-    // glBindVertexArray(VAO);
-
-    // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    // glEnableVertexAttribArray(0);
-
-    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    // glEnableVertexAttribArray(1);
-
-    // unsigned int lightVAO;
-    // glGenVertexArrays(1, &lightVAO);
-    // glBindVertexArray(lightVAO);
-
-    // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6* sizeof(float), (void*)0);
-    // glEnableVertexAttribArray(0);
-
-    // lightingShader.use();
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    // glCullFace(GL_FRONT);
-
 
     // skybox
     std::vector<std::string> faces = {
@@ -129,70 +52,12 @@ int main()
         "../res/skybox/GalaxyTex_PositiveZ.png",
         "../res/skybox/GalaxyTex_NegativeZ.png",
     };
-    unsigned int cubemapTexture = loadCubemap(faces);
-
-    float skyboxVertices[] = {
-        // positions          
-        -1.0f,  1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-
-        -1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
-
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,
-        1.0f,  1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-
-        -1.0f, -1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,
-        1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
-
-        -1.0f,  1.0f, -1.0f,
-        1.0f,  1.0f, -1.0f,
-        1.0f,  1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f, -1.0f,
-
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-        1.0f, -1.0f,  1.0f
-    };
-
-    unsigned int sbVBO, sbVAO;
-    glGenVertexArrays(1, &sbVAO);
-    glGenBuffers(1, &sbVBO);
-    glBindVertexArray(sbVAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, sbVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), skyboxVertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
+    Skybox skybox(faces);
 
     stbi_set_flip_vertically_on_load(true);
 
     Shader shader("../shaders/model_loading.vs", "../shaders/model_loading.fs");
     Shader skyboxShader("../shaders/skybox.vs", "../shaders/skybox.fs");
-    // shader.use();
 
     Model curModel("../res/models/backpack/backpack.obj");
     // Model curModel("../res/models/cube/untitled.obj");
@@ -223,7 +88,7 @@ int main()
         shader.setMat4("model", model);
         curModel.draw(shader);
 
-        glDepthFunc(GL_LEQUAL);
+        // glDepthFunc(GL_LEQUAL);
         skyboxShader.use();
         
         // view/projection transformations
@@ -232,10 +97,12 @@ int main()
         skyboxShader.setMat4("projection", sbProjection);
         skyboxShader.setMat4("view", sbView);
 
-        glBindVertexArray(sbVAO);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glDepthFunc(GL_LESS);
+        skybox.draw(skyboxShader);
+
+        // glBindVertexArray(sbVAO);
+        // glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+        // glDrawArrays(GL_TRIANGLES, 0, 36);
+        // glDepthFunc(GL_LESS);
 
         // lightingShader.use();
         // lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
